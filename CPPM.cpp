@@ -36,16 +36,8 @@ void CPPMReceiver::end()
  */
 bool CPPMReceiver::ok(void)
 {
-    uint32_t now = millis();
-    uint32_t interval = now - _lastFrameMillis;
-
-    // Handle timer overflow
-    if (now < _lastFrameMillis)
-    {
-        interval = (uint32_t)-1 - _lastFrameMillis + now;
-    }
-
-    return _synced && interval <= CPPM_FRAME_SIZE_IN_MS * 2;
+    // Need to devise a watchdog; this is never cleared when signal is lost
+    return CPPM._synced;
 }
 
 /**
@@ -115,7 +107,6 @@ ISR(TIMER1_CAPT_vect)
             {
                 CPPM._synced = true;
                 CPPM._state = CPPMReceiver::SYNC_PULSE;
-                CPPM._lastFrameMillis = millis();
             }
         }
         // If we've received an untolerable channel pulse,

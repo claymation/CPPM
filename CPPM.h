@@ -27,7 +27,6 @@ private:
     volatile bool _synced;
     volatile PulseState _state;
     volatile int16_t _channels[CPPM_MAX_CHANNELS];
-    volatile uint32_t _lastFrameMillis;
 
 public:
     CPPMReceiver() : _synced(false), _state(SYNC_PULSE) {};
